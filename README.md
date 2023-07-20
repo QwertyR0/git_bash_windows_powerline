@@ -2,7 +2,7 @@
 
 Light & simple powerline theme for Git bash for windows
 
-![ScreenShot](screenshot.png)
+![ScreenShot](nScreenshot.png)
 
 
 ## Install:
