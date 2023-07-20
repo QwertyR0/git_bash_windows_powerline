@@ -27,7 +27,7 @@ SCM_PROMPT_STAGED_COLOR="Y Bl"
 SCM_PROMPT_UNSTAGED_COLOR="R Bl"
 SCM_PROMPT_COLOR=${SCM_PROMPT_CLEAN_COLOR}
 
-CWD_PROMPT_COLOR="B C"
+CWD_PROMPT_COLOR="B BL"
 
 STATUS_PROMPT_COLOR="Bl R B"
 STATUS_PROMPT_ERROR="✘"
@@ -79,9 +79,9 @@ function __powerline_user_info_prompt {
   local user_info=""
   local color=${USER_INFO_PROMPT_COLOR}
   if [[ -n "${SSH_CLIENT}" ]]; then
-    user_info="${USER_INFO_SSH_CHAR}\u@\h"
+    user_info="${USER_INFO_SSH_CHAR}"
   else
-    user_info="\u@\h"
+    user_info=""
   fi
   [[ -n "${user_info}" ]] && echo "${user_info}|${color}"
 }
