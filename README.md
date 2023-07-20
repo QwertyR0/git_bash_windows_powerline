@@ -1,7 +1,7 @@
 # Git bash for windows powerline theme
 
 Light & simple powerline theme for Git bash for windows.  
-This is a fork of the original repository. I can be found [here](https://github.com/diesire/git_bash_windows_powerline).
+This is a fork of the original repository. It can be found [here](https://github.com/diesire/git_bash_windows_powerline).
   
 ![ScreenShot](nScreenshot.png)
 
