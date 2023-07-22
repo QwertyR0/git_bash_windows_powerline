@@ -169,17 +169,21 @@ function __powerline_scm_prompt {
 }
 
 function __powerline_cwd_prompt {
-  git_name=""
-  git_local_branch=$(git rev-parse --abbrev-ref HEAD 2> /dev/null)
+  local git_local_branch=$(git rev-parse --abbrev-ref HEAD 2> /dev/null)
 
   if [[ -n "$git_local_branch" ]]; then
-    git_name=$(basename `git rev-parse --show-toplevel`)
-    echo "󰊤 ${git_name}|${GIT_NAME_COLOR}"
+    local git_toplevel=$(git rev-parse --show-toplevel)
+    local git_name=$(basename "$git_toplevel")
+    local relative_path=$(git rev-parse --show-prefix)
+
+    if [[ -z "$relative_path" ]]; then
+        echo "󰊤 ${git_name}|${GIT_NAME_COLOR}"
+    else
+        echo "󰊤 ${git_name}/${relative_path}|${GIT_NAME_COLOR}"
+    fi
   else
     echo "\w|${CWD_PROMPT_COLOR}"
   fi
-
-  unset git_name \ git_local_branch
 }
 
 function __powerline_left_segment {
