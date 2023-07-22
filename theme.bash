@@ -6,7 +6,6 @@
 # Git code based on https://github.com/joeytwiddle/git-aware-prompt/blob/master/prompt.sh
 # More info about color codes in https://en.wikipedia.org/wiki/ANSI_escape_code
 
-
 PROMPT_CHAR=${POWERLINE_PROMPT_CHAR:=""}
 POWERLINE_LEFT_SEPARATOR=" "
 POWERLINE_PROMPT="last_status user_info cwd scm"
@@ -27,7 +26,8 @@ SCM_PROMPT_STAGED_COLOR="Y Bl"
 SCM_PROMPT_UNSTAGED_COLOR="R Bl"
 SCM_PROMPT_COLOR=${SCM_PROMPT_CLEAN_COLOR}
 
-CWD_PROMPT_COLOR="B BL"
+CWD_PROMPT_COLOR="B"
+GIT_NAME_COLOR="M"
 
 STATUS_PROMPT_COLOR="Bl R B"
 STATUS_PROMPT_ERROR="✘"
@@ -86,19 +86,15 @@ function __powerline_user_info_prompt {
   [[ -n "${user_info}" ]] && echo "${user_info}|${color}"
 }
 
-function __powerline_cwd_prompt {
-  echo "\w|${CWD_PROMPT_COLOR}"
-}
-
 function __powerline_scm_prompt {
   git_local_branch=""
-  git_branch=""
   git_dirty=""
   git_dirty_count=""
   git_ahead_count=""
   git_ahead=""
   git_behind_count=""
   git_behind=""
+  git_branch=""
 
   find_git_branch() {
     # Based on: http://stackoverflow.com/a/13003854/170413
@@ -170,6 +166,20 @@ function __powerline_scm_prompt {
   [[ -n "$git_ahead" ]] && color="Y"
   [[ -n "$git_behind" ]] && color="Y"
   [[ -n "${scm_info}" ]] && echo "${scm_info}|${color}"
+}
+
+function __powerline_cwd_prompt {
+  git_name=""
+  git_local_branch=$(git rev-parse --abbrev-ref HEAD 2> /dev/null)
+
+  if [[ -n "$git_local_branch" ]]; then
+    git_name=$(basename `git rev-parse --show-toplevel`)
+    echo "󰊤 ${git_name}|${GIT_NAME_COLOR}"
+  else
+    echo "\w|${CWD_PROMPT_COLOR}"
+  fi
+
+  unset git_name \ git_local_branch
 }
 
 function __powerline_left_segment {
@@ -301,6 +311,6 @@ __color_matrix() {
 }
 
 __character_map () {
-  echo "powerline: ±●➦★⚡★ ✗✘✓✓✔✕✖✗← ↑ → ↓"
+  echo "powerline: ±●➦★󰊤⚡★ ✗✘✓✓✔✕✖✗← ↑ → ↓"
   echo "other: ☺☻👨⚙⚒⚠⌛"
 }
